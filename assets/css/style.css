@@ -15,3 +15,14 @@ button {
   height: 44px;
   font-size: 22px;
 }
+
+.article-container {
+  width: 900px;
+  background-color: #fff;
+  padding: 30px;
+}
+
+.article-box {
+  padding: 30px;
+  width: 100%;
+}
