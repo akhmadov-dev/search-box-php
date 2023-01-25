@@ -1,9 +1,24 @@
-<?php include __DIR__ . '/template/_header.php' ?>
-<?php include __DIR__ . '/functions/connect.php' ?>
-<?php include __DIR__ . '/functions/search.php' ?>
+<?php
+error_reporting(E_ALL);
+error_reporting(-1);
+ini_set('error_reporting', E_ALL);
 
-<form>
-    <input type="text" name="search" placeholder="Search" />
+require __DIR__ . '/template/_header.php';
+require __DIR__ . '/functions/search.php';
+
+$conn = require __DIR__ . '/functions/connect.php';
+
+if (isset($_POST['submit-search']) && !empty($_POST['search'])) {
+    $search = $_POST['search'];
+    $get_user = getUser($conn, $search);
+} else {
+    $search = '';
+    $get_user = getUserAll($conn);
+}
+?>
+
+<form method="post">
+    <input type="text" name="search" value="<?= $search ?>" placeholder="Search" />
     <button type="submit" name="submit-search">Search</button>
 </form>
 
@@ -13,16 +28,6 @@
 
 <div class="article-container">
 
-    <?php
-
-    if (isset($_GET['submit_search'])) {
-        $search = $_GET['search'];
-        $get_user = getUser($conn, $search);
-    } else {
-        $get_user = getUserAll($conn);
-    }
-    ?>
-
     <?php foreach ($get_user as $user) : ?>
         <a href="user.php?id=<?= $user['id'] ?>">
             <?= $user['first_name'] . ' ' . $user['last_name'] . ' ' . $user['middle_name'] ?>
@@ -31,4 +36,4 @@
 
 </div>
 
-<?php include __DIR__ . '/template/_footer.php' ?>
+<?php require __DIR__ . '/template/_footer.php' ?>
